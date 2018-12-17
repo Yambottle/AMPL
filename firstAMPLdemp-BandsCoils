@@ -1,0 +1,15 @@
+# Model file
+set PROD;
+param rate{PROD}>0;# {} is indexing operator in AMPL, parmeters for all elements in the set PROD
+parm avail>=0;# an indinidual parameter means time 
+param profit{PROD};
+param market{PROD}>=0;# market means the upper bound each product can be produced(unit:ton)
+var Make{p in PROD}>=0, <=market[p]*Make[p];# Objective
+subject to Time: sum {p in PROD} (1/rate[p])*Make[p]<=avail;# Constraint
+
+# Data file
+set PROD:= bands coils;
+param: rate profit market :=
+bands 200 25 6000
+coils 140 30 4000 ;
+param avail :=40;
